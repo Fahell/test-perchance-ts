@@ -1,0 +1,28 @@
+<!-- For Perchance - HTML Panel -->
+<!-- TypeScript Test Bundle v1.0.0 -->
+<div id="three-container" style="position:relative;width:100%;height:300px;background:#1a1a2e;border-radius:8px;margin-bottom:10px;"></div>
+<div id="ai-output" style="padding:10px;background:#1a1a2e;color:#e0e0e0;border-radius:8px;font-family:monospace;font-size:13px;min-height:60px;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<script type="module">
+  if (window.__TS_TEST_INITIALIZED) {
+    console.log('\u23ed\uFE0F TS test already initialized. Ignoring re-execution.');
+  } else {
+    window.__TS_TEST_INITIALIZED = true;
+    console.log('\uD83D\uDCC4 TS HTML Panel injected, loading bundle v1.0.0...');
+    import("https://cdn.jsdelivr.net/gh/Fahell/test-perchance-ts@v1.0.0/dist/main.bundle.js")
+      .then(module => {
+        console.log('\u2705 TS Bundle loaded, calling initGame()...');
+        module.initGame();
+      })
+      .catch(err => {
+        console.error('\u274C Failed to load TS bundle:', err);
+        console.log('\uD83D\uDCA1 Possible causes:');
+        console.log('   1. Tag v1.0.0 does not exist on GitHub');
+        console.log('   2. jsDelivr CDN cache (wait 10 min or change version)');
+        console.log('   3. CORS or network issue');
+        console.log('   4. Three.js CDN script did not load (check above)');
+      });
+  }
+</script>

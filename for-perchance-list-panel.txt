@@ -1,0 +1,26 @@
+
+ai = {import:ai-text-plugin}
+
+messages
+  Hello from TypeScript!
+  Testing AI text generation...
+  What can you tell me about Three.js?
+  Describe a futuristic city.
+  Write a short poem about code.
+
+colors
+  red
+  blue
+  green
+  purple
+  cyan
+  magenta
+  orange
+  yellow
+
+shapes
+  cube
+  sphere
+  torus
+  cone
+  cylinder
