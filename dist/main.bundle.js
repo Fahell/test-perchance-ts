@@ -1,4 +1,4 @@
-const VERSION = "v1.0.0";
+const VERSION = "v1.0.1";
 let perchanceBridge = null;
 function createPerchanceBridge() {
   return {
