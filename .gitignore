@@ -1,5 +1,5 @@
 node_modules/
-dist/
+# dist/ # Não ignorar - precisa ser commitado para o CDN
 *.log
 .env
 .DS_Store

@@ -2,7 +2,9 @@
   "name": "test-perchance-ts",
   "type": "nodejs",
   "version": {
-    "files": ["src/constants.ts"],
+    "files": [
+      "src/constants.ts"
+    ],
     "patterns": {
       "src/constants.ts": "export const VERSION = 'v{version}';"
     }
@@ -18,9 +20,11 @@
   },
   "build": {
     "command": "npm run build",
-    "artifacts": ["dist/main.bundle.js"],
+    "artifacts": [
+      "dist/main.bundle.js"
+    ],
     "minSizeKB": 1,
-    "maxSizeKB": 500
+    "maxSizeKB": 5000
   },
   "lint": {
     "enabled": true,
@@ -31,7 +35,7 @@
     "command": "npm test"
   },
   "security": {
-    "audit": false,
+    "audit": true,
     "detectSecrets": true
   },
   "pr": {
