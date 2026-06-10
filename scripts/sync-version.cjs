@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * sync-version.cjs - Synchronizes version from constants.js across the project
+ * sync-version.cjs - Synchronizes version from constants.ts across the project
  * 
  * Usage: node scripts/sync-version.cjs
  * 
@@ -17,7 +17,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
-const CONSTANTS_PATH = path.join(ROOT, 'src', 'constants.js');
+const CONSTANTS_PATH = path.join(ROOT, 'src', 'constants.ts');
 const REPO_NAME = 'test-perchance-ts';
 
 // Files/directories to exclude from scanning
@@ -72,13 +72,13 @@ function validateSemver(version) {
 }
 
 /**
- * Extracts version from constants.js
+ * Extracts version from constants.ts
  */
 function extractVersion() {
   const content = fs.readFileSync(CONSTANTS_PATH, 'utf-8');
   const match = content.match(/export\s+const\s+VERSION\s*=\s*['"]([^'"]+)['"]/);
   if (!match) {
-    throw new Error('Could not extract VERSION from constants.js');
+    throw new Error('Could not extract VERSION from constants.ts');
   }
   return match[1];
 }
@@ -371,7 +371,7 @@ function main() {
     const version = validation.normalized;
     const versionWithoutPrefix = validation.withoutPrefix;
     
-    console.log(`📋 Version detected in constants.js: ${version}`);
+    console.log(`📋 Version detected in constants.ts: ${version}`);
     console.log(`   Semver: ${validation.major}.${validation.minor}.${validation.patch}\n`);
     
     // Find all text files in the project
@@ -385,7 +385,7 @@ function main() {
     };
     
     for (const filePath of textFiles) {
-      // Skip constants.js (source of truth)
+      // Skip constants.ts (source of truth)
       if (filePath === CONSTANTS_PATH) continue;
       
       const fileName = path.basename(filePath);
