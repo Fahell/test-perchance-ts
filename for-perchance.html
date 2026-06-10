@@ -10,8 +10,8 @@
     console.log('\u23ed\uFE0F TS test already initialized. Ignoring re-execution.');
   } else {
     window.__TS_TEST_INITIALIZED = true;
-    console.log('\uD83D\uDCC4 TS HTML Panel injected, loading bundle v1.0.1...');
-    import("https://cdn.jsdelivr.net/gh/Fahell/test-perchance-ts@v1.0.1/dist/main.bundle.js")
+    console.log('\uD83D\uDCC4 TS HTML Panel injected, loading bundle v1.0.2...');
+    import("https://cdn.jsdelivr.net/gh/Fahell/test-perchance-ts@v1.0.2/dist/main.bundle.js")
       .then(module => {
         console.log('\u2705 TS Bundle loaded, calling initGame()...');
         module.initGame();
@@ -19,7 +19,7 @@
       .catch(err => {
         console.error('\u274C Failed to load TS bundle:', err);
         console.log('\uD83D\uDCA1 Possible causes:');
-        console.log('   1. Tag v1.0.1 does not exist on GitHub');
+        console.log('   1. Tag v1.0.2 does not exist on GitHub');
         console.log('   2. jsDelivr CDN cache (wait 10 min or change version)');
         console.log('   3. CORS or network issue');
         console.log('   4. Three.js CDN script did not load (check above)');
