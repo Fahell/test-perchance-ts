@@ -1,0 +1,1 @@
+{"version":3,"file":"three-scene-test.d.ts","sourceRoot":"","sources":["../../src/modules/three-scene-test.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,gBAAgB,EAAoB,MAAM,YAAY,CAAC;AAErE,OAAO,CAAC,MAAM,CAAC;IACb,UAAU,MAAM;QACd,KAAK,CAAC,EAAE,cAAc,OAAO,CAAC,CAAC;KAChC;CACF;AAED,wBAAsB,cAAc,IAAI,OAAO,CAAC,gBAAgB,CAAC,CAiGhE"}
