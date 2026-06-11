@@ -1,6 +1,6 @@
 {
   "name": "test-perchance-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "TypeScript test project for Perchance.org - AI text plugin and Three.js integration",
   "scripts": {
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Fahell/test-perchance-ts#readme",
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "@types/three": "^0.160.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
