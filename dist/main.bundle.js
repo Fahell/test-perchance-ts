@@ -1,4 +1,4 @@
-const VERSION = "v1.0.8";
+const VERSION = "v1.0.9";
 function getPerchanceRoot() {
   if (typeof window !== "undefined") {
     if (window.root) {
@@ -8,7 +8,7 @@ function getPerchanceRoot() {
       return window.parent.root;
     }
   }
-  return {};
+  return null;
 }
 const root = getPerchanceRoot();
 let perchanceBridge = null;
@@ -16,7 +16,7 @@ function createPerchanceBridge() {
   return {
     getVariable(name, fallback = "") {
       try {
-        if (root[name] !== void 0 && root[name] !== null) {
+        if (root && root[name] !== void 0 && root[name] !== null) {
           return String(root[name]);
         }
       } catch {
@@ -25,6 +25,7 @@ function createPerchanceBridge() {
     },
     getList(name, fallback = []) {
       try {
+        if (!root) return fallback;
         const list = root[name];
         if (list && typeof list.selectOne === "function") {
           return list;
@@ -37,7 +38,7 @@ function createPerchanceBridge() {
       return fallback;
     },
     isAvailable() {
-      return Object.keys(root).length > 0;
+      return root !== null;
     }
   };
 }
