@@ -5,7 +5,7 @@
   "description": "TypeScript test project for Perchance.org - AI text plugin and Three.js integration",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build && tsc",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -38,5 +38,8 @@
     "vite": "^6.0.0",
     "vitest": "^2.0.0"
   },
-  "types": "dist/main.d.ts"
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist"
+  ]
 }
