@@ -5,7 +5,7 @@ interface PerchanceRoot {
   joinItems?: (sep: string) => string;
 }
 
-function getPerchanceRoot(): PerchanceRoot {
+function getPerchanceRoot(): PerchanceRoot | null {
   if (typeof window !== 'undefined') {
     if ((window as unknown as Record<string, unknown>).root) {
       return (window as unknown as Record<string, unknown>).root as PerchanceRoot;
@@ -14,7 +14,7 @@ function getPerchanceRoot(): PerchanceRoot {
       return (window.parent as unknown as Record<string, unknown>).root as PerchanceRoot;
     }
   }
-  return {};
+  return null;
 }
 
 const root = getPerchanceRoot();
@@ -31,7 +31,7 @@ function createPerchanceBridge(): PerchanceBridge {
   return {
     getVariable(name: string, fallback: string = ''): string {
       try {
-        if (root[name] !== undefined && root[name] !== null) {
+        if (root && root[name] !== undefined && root[name] !== null) {
           return String(root[name]);
         }
       } catch {
@@ -41,7 +41,8 @@ function createPerchanceBridge(): PerchanceBridge {
     },
     getList(name: string, fallback: string[] = []): string[] {
       try {
-        const list = root[name];
+        if (!root) return fallback;
+      const list = root[name];
         if (list && typeof (list as PerchanceRoot).selectOne === 'function') {
           // It's a Perchance list object. Return it casted as string[] for compatibility,
           // though in reality it's an object with selectOne/selectMany methods.
@@ -56,7 +57,7 @@ function createPerchanceBridge(): PerchanceBridge {
       return fallback;
     },
     isAvailable(): boolean {
-      return Object.keys(root).length > 0;
+      return root !== null;
     }
   };
 }
