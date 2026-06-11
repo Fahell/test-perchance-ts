@@ -1,6 +1,6 @@
 {
   "name": "test-perchance-ts",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "description": "TypeScript test project for Perchance.org - AI text plugin and Three.js integration",
   "scripts": {
