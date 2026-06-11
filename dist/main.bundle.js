@@ -1,4 +1,4 @@
-const VERSION = "v1.0.7";
+const VERSION = "v1.0.8";
 function getPerchanceRoot() {
   if (typeof window !== "undefined") {
     if (window.root) {
