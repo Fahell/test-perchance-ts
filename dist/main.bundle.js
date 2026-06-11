@@ -115,25 +115,17 @@ async function threeSceneTest() {
     frameCount: 0
   };
   try {
-    let THREE_Bundled = null;
-    let bundledLoaded = false;
-    try {
-      THREE_Bundled = await import("three");
-      bundledLoaded = true;
-      console.log("[Three-TS] Bundled Three.js imported successfully.");
-    } catch (e) {
-      console.warn("[Three-TS] Bundled import failed:", e);
-    }
-    const cdnLoaded = window.THREE !== void 0;
-    const THREE_CDN = window.THREE;
+    const THREE = window.THREE;
+    const cdnLoaded = THREE !== void 0;
     if (cdnLoaded) {
       console.log("[Three-TS] CDN Three.js detected on window.THREE.");
+    } else {
+      console.warn("[Three-TS] CDN Three.js not found on window.THREE.");
     }
-    const THREE = THREE_Bundled ?? THREE_CDN;
     if (!THREE) {
       result.status = "error";
-      result.message = "Neither bundled nor CDN Three.js is available.";
-      result.data = { bundledLoaded, cdnLoaded };
+      result.message = "CDN Three.js is not available on window.THREE.";
+      result.data = { cdnLoaded };
       return result;
     }
     const scene = new THREE.Scene();
@@ -169,10 +161,10 @@ async function threeSceneTest() {
       console.warn("[Three-TS] No #three-container found. Scene created but not rendered.");
     }
     result.status = "success";
-    result.message = `Three.js verified. Bundled: ${bundledLoaded}, CDN: ${cdnLoaded}. Renderer: ${status.rendererReady}.`;
+    result.message = `Three.js verified via CDN: ${cdnLoaded}. Renderer: ${status.rendererReady}.`;
     result.data = {
       ...status,
-      source: bundledLoaded ? "bundled" : "cdn"
+      source: "cdn"
     };
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);

@@ -24,30 +24,22 @@ export async function threeSceneTest(): Promise<TestModuleResult> {
   };
 
   try {
-    let THREE_Bundled: typeof import('three') | null = null;
-    let bundledLoaded = false;
-
-    try {
-      THREE_Bundled = await import('three');
-      bundledLoaded = true;
-      console.log('[Three-TS] Bundled Three.js imported successfully.');
-    } catch (e) {
-      console.warn('[Three-TS] Bundled import failed:', e);
-    }
-
-    const cdnLoaded = window.THREE !== undefined;
-    const THREE_CDN = window.THREE;
+    // We rely on the CDN version loaded via window.THREE.
+    // The dynamic import('three') was removed because 'three' is externalized in vite.config.ts,
+    // which causes browsers to throw "Failed to resolve module specifier 'three'" without an import map.
+    const THREE = window.THREE;
+    const cdnLoaded = THREE !== undefined;
 
     if (cdnLoaded) {
       console.log('[Three-TS] CDN Three.js detected on window.THREE.');
+    } else {
+      console.warn('[Three-TS] CDN Three.js not found on window.THREE.');
     }
-
-    const THREE = THREE_Bundled ?? THREE_CDN;
 
     if (!THREE) {
       result.status = 'error';
-      result.message = 'Neither bundled nor CDN Three.js is available.';
-      result.data = { bundledLoaded, cdnLoaded };
+      result.message = 'CDN Three.js is not available on window.THREE.';
+      result.data = { cdnLoaded };
       return result;
     }
 
@@ -90,10 +82,10 @@ export async function threeSceneTest(): Promise<TestModuleResult> {
     }
 
     result.status = 'success';
-    result.message = `Three.js verified. Bundled: ${bundledLoaded}, CDN: ${cdnLoaded}. Renderer: ${status.rendererReady}.`;
+    result.message = `Three.js verified via CDN: ${cdnLoaded}. Renderer: ${status.rendererReady}.`;
     result.data = {
       ...status,
-      source: bundledLoaded ? 'bundled' : 'cdn'
+      source: 'cdn'
     };
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
