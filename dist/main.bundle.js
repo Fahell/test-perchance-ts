@@ -1,15 +1,23 @@
 const VERSION = "v1.0.7";
+function getPerchanceRoot() {
+  if (typeof window !== "undefined") {
+    if (window.root) {
+      return window.root;
+    }
+    if (window.parent && window.parent.root) {
+      return window.parent.root;
+    }
+  }
+  return {};
+}
+const root = getPerchanceRoot();
 let perchanceBridge = null;
 function createPerchanceBridge() {
   return {
     getVariable(name, fallback = "") {
       try {
-        if (window.perchance !== void 0) {
-          const pc = window.perchance;
-          const val = pc.getVariable?.(name);
-          if (val !== void 0 && val !== null) {
-            return String(val);
-          }
+        if (root[name] !== void 0 && root[name] !== null) {
+          return String(root[name]);
         }
       } catch {
       }
@@ -17,19 +25,19 @@ function createPerchanceBridge() {
     },
     getList(name, fallback = []) {
       try {
-        if (window.perchance !== void 0) {
-          const pc = window.perchance;
-          const list = pc.getList?.(name);
-          if (Array.isArray(list) && list.length > 0) {
-            return list;
-          }
+        const list = root[name];
+        if (list && typeof list.selectOne === "function") {
+          return list;
+        }
+        if (Array.isArray(list) && list.length > 0) {
+          return list;
         }
       } catch {
       }
       return fallback;
     },
     isAvailable() {
-      return window.perchance !== void 0;
+      return Object.keys(root).length > 0;
     }
   };
 }

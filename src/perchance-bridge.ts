@@ -1,3 +1,24 @@
+interface PerchanceRoot {
+  [key: string]: unknown;
+  selectOne?: unknown;
+  selectMany?: (n: number) => unknown[];
+  joinItems?: (sep: string) => string;
+}
+
+function getPerchanceRoot(): PerchanceRoot {
+  if (typeof window !== 'undefined') {
+    if ((window as unknown as Record<string, unknown>).root) {
+      return (window as unknown as Record<string, unknown>).root as PerchanceRoot;
+    }
+    if (window.parent && (window.parent as unknown as Record<string, unknown>).root) {
+      return (window.parent as unknown as Record<string, unknown>).root as PerchanceRoot;
+    }
+  }
+  return {};
+}
+
+const root = getPerchanceRoot();
+
 interface PerchanceBridge {
   getVariable(name: string, fallback?: string): string;
   getList(name: string, fallback?: string[]): string[];
@@ -10,14 +31,8 @@ function createPerchanceBridge(): PerchanceBridge {
   return {
     getVariable(name: string, fallback: string = ''): string {
       try {
-        if ((window as unknown as Record<string, unknown>).perchance !== undefined) {
-          const pc = (window as unknown as Record<string, unknown>).perchance as {
-            getVariable: (n: string) => string | undefined;
-          };
-          const val = pc.getVariable?.(name);
-          if (val !== undefined && val !== null) {
-            return String(val);
-          }
+        if (root[name] !== undefined && root[name] !== null) {
+          return String(root[name]);
         }
       } catch {
         // Perchance not available
@@ -26,14 +41,14 @@ function createPerchanceBridge(): PerchanceBridge {
     },
     getList(name: string, fallback: string[] = []): string[] {
       try {
-        if ((window as unknown as Record<string, unknown>).perchance !== undefined) {
-          const pc = (window as unknown as Record<string, unknown>).perchance as {
-            getList: (n: string) => string[] | undefined;
-          };
-          const list = pc.getList?.(name);
-          if (Array.isArray(list) && list.length > 0) {
-            return list;
-          }
+        const list = root[name];
+        if (list && typeof (list as PerchanceRoot).selectOne === 'function') {
+          // It's a Perchance list object. Return it casted as string[] for compatibility,
+          // though in reality it's an object with selectOne/selectMany methods.
+          return list as unknown as string[];
+        }
+        if (Array.isArray(list) && list.length > 0) {
+          return list as string[];
         }
       } catch {
         // Perchance not available
@@ -41,7 +56,7 @@ function createPerchanceBridge(): PerchanceBridge {
       return fallback;
     },
     isAvailable(): boolean {
-      return (window as unknown as Record<string, unknown>).perchance !== undefined;
+      return Object.keys(root).length > 0;
     }
   };
 }
